@@ -5,3 +5,7 @@ body {
 .navbar-right {
 	padding-right: 10px;
 }
+
+.editorCanvas {
+	height: 500px;
+}
