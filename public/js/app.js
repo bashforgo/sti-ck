@@ -1,0 +1,1 @@
+angular.module('stick', ['ngRoute', 'appRoutes', 'MainCtrl', 'CreateCtrl', 'GeekCtrl', 'GeekService']);

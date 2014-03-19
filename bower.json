@@ -1,0 +1,11 @@
+{
+	"name": "sti-ck",
+	"version": "1.0.0",
+	"dependencies": {
+		"bootstrap": "latest",
+		"angular": "latest",
+		"angular-route": "latest",
+		"jquery": "latest",
+		"jquery.ui": "latest"
+	}
+}
