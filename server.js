@@ -1,37 +1,27 @@
-var http = require("http"),
-    url = require("url"),
-    path = require("path"),
-    fs = require("fs")
-    port = process.env.PORT || 3000;
+// modules =================================================
+var express = require('express');
+var app     = express();
+var mongoose= require('mongoose');
 
-http.createServer(function(request, response) {
+// configuration ===========================================
+	
+// config files
+var db = require('./config/db');
 
-  var uri = url.parse(request.url).pathname
-    , filename = path.join(process.cwd(), uri);
-  
-  path.exists(filename, function(exists) {
-    if(!exists) {
-      response.writeHead(404, {"Content-Type": "text/plain"});
-      response.write("404 Not Found\n");
-      response.end();
-      return;
-    }
+var port = process.env.PORT || 8080; // set our port
+// mongoose.connect(db.url); // connect to our mongoDB database (commented out after you enter in your own credentials)
 
-    if (fs.statSync(filename).isDirectory()) filename += '/index.html';
+app.configure(function() {
+	app.use(express.static(__dirname + '/public')); 	// set the static files location /public/img will be /img for users
+	app.use(express.logger('dev')); 					// log every request to the console
+	app.use(express.bodyParser()); 						// pull information from html in POST
+	app.use(express.methodOverride()); 					// simulate DELETE and PUT
+});
 
-    fs.readFile(filename, "binary", function(err, file) {
-      if(err) {        
-        response.writeHead(500, {"Content-Type": "text/plain"});
-        response.write(err + "\n");
-        response.end();
-        return;
-      }
+// routes ==================================================
+require('./app/routes')(app); // pass our application into our routes
 
-      response.writeHead(200);
-      response.write(file, "binary");
-      response.end();
-    });
-  });
-}).listen(parseInt(port, 10));
-
-console.log("Static file server running at\n  => http://localhost:" + port + "/\nCTRL + C to shutdown");
+// start app ===============================================
+app.listen(port);	
+console.log('Magic happens on port ' + port); 			// shoutout to the user
+exports = module.exports = app; 						// expose app

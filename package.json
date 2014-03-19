@@ -1,12 +1,8 @@
 {
-    "name": "wps",
-    "author": "SpeedoDevo",
-    "description": "nope",
-    "version": "0.0.1",
-    "dependencies": {
-    },
-    "engines": {
-        "node": "0.10.26"
-    },
-    "license": "WTFPL"
+  "name": "sti-ck",
+  "main": "server.js",
+  "dependencies": {
+    "express":  "latest",
+    "mongoose": "latest"
+  }
 }
