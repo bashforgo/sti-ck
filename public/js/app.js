@@ -1,1 +1,1 @@
-angular.module('stick', ['ngRoute', 'appRoutes', 'MainCtrl', 'CreateCtrl', 'GeekCtrl', 'GeekService']);
+angular.module('stick', ['ngRoute', 'appRoutes', 'MainCtrl', 'CreateCtrl', 'GeekCtrl', 'GeekService', 'colorpicker.module']);

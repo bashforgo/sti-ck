@@ -2,22 +2,32 @@
 	<div class="row"></div>
 		<div class="col-md-12">
 			<div class="row">
-				<canvas class="panel panel-default panel-body col-md-12 editorCanvas">
-
-				</canvas>
+				<div class="panel panel-default panel-body col-md-12" id="editorCanvas">
+					<div id="shape" ng-style="{ 'background-color': shape.bg }"></div>
+					<img id="userImg" src="{{ imgSrc }}" ng-show="{{ imgSrc }}">
+					<div id="text"></div>
+				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-6">	
-					<div class="btn-group input-group btn-group-justified" data-toggle="buttons">
-						<label class="btn btn-default active">
-							<input type="radio" name="options" id="option1" checked="checked" />rectangle
+				<div class="col-md-4">	
+					<div class="btn-group input-group btn-group-justified" id="toggle" data-toggle="buttons">
+						<label class="btn btn-default active" ng-click="shape.type='rectangle'">
+							<input type="radio"/>rectangle
 						</label>
-						<label class="btn btn-default">
-							<input type="radio" name="options" id="option2"/>circle
+						<label class="btn btn-default" ng-click="shape.type='circle'">
+							<input type="radio"/>circle
 						</label>
 					</div>
 				</div>
-				<div class="col-md-6">	
+				<div class="col-md-3">	
+					<div class="btn-group btn-group-justified">
+						<div class="input-group">
+							<span class="input-group-addon">background</span>
+							<input colorpicker colorpicker-position="top" type="text" class="form-control" ng-model="shape.bg">
+						</div>
+					</div>
+				</div>
+				<div class="col-md-5">	
 					<div class="btn-group btn-group-justified">
 						<div class="btn-group">
 							<button type="button" class="btn btn-default">image</button>
