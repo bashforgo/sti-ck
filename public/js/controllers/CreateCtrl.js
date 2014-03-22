@@ -52,7 +52,7 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope)
 	$('#reset').click(function () {
 		var original = 400;
 		$scope.imgSrc="";
-		$scope.shape.type = "";
+		$scope.usrTxt = "";
 		$scope.shape.bg = "ffffff";
 		$scope.shape.rw = original;
 		$scope.shape.rh = original;
