@@ -2,19 +2,18 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope)
 	$scope.shape = {};
 	$scope.shape.dom = $('#shape');
 	$scope.imgSrc="";
+	$scope.usrTxt = "";
 	$scope.shape.type = "";
-	$scope.shape.bg = "#ffffff";
+	$scope.shape.bg = "ffffff";
 	$scope.shape.rw = $scope.shape.dom.width();
 	$scope.shape.rh = $scope.shape.dom.height();
 	$scope.shape.cw = $scope.shape.dom.width();
 	$scope.shape.ch = $scope.shape.dom.height();
+	$scope.fonts = ['Ubuntu Mono', 'Sofadi One', 'Nothing You Could Do', 'Gilda Display', 'Diplomata', 'The Girl Next Door', 'Playfair Display SC', 'Candal', 'Open Sans', 'Herr Von Muellerhoff'];
 
 
 	$scope.$on('$routeChangeSuccess', function () {
 		center();
-		$('#toggle').click(function () {
-			console.log($scope.shape.type);
-		});
 		$scope.shape.dom.resizable({
 			minWidth: 50,
 			minHeight: 50,
@@ -26,6 +25,7 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope)
 			stop: function (event, ui) {center();}
 		});
 	});
+
 	$scope.$watch('shape.type',function (newVal,oldVal) {
 		if (newVal === "circle") {
 			console.log(newVal);
@@ -34,7 +34,7 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope)
 			$scope.shape.dom.animate({
 				"width": $scope.shape.cw + "px",
 				"height": $scope.shape.ch + "px",
-				"border-radius": "50%"},
+				"borderRadius": "50%"},
 				{step: function (now, tween) {center();}},
 				1000);
 		} else{
@@ -44,11 +44,30 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope)
 			$scope.shape.dom.animate({
 				"width": $scope.shape.rw + "px",
 				"height": $scope.shape.rh + "px",
-				"border-radius": "0%"},
+				"borderRadius": "0%"},
 				{step: function (now, tween) {center();}},
 				1000);
 		};
-	})
+	});
+	$('#reset').click(function () {
+		var original = 400;
+		$scope.imgSrc="";
+		$scope.shape.type = "";
+		$scope.shape.bg = "ffffff";
+		$scope.shape.rw = original;
+		$scope.shape.rh = original;
+		$scope.shape.cw = original;
+		$scope.shape.ch = original;
+		$scope.shape.dom.animate({
+			width: original + "px",
+			height: original + "px",
+			backgroundColor: "ffffff"},
+			{step: function (now, tween) {center();},
+			complete: function () {$scope.$digest();}},
+			1000);
+
+	});
+
 	$(window).resize(function(){
 	   center(); 
 	});
