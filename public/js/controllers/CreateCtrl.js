@@ -9,8 +9,9 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope)
 	$scope.shape.rh = $scope.shape.dom.height();
 	$scope.shape.cw = $scope.shape.dom.width();
 	$scope.shape.ch = $scope.shape.dom.height();
-	$scope.fonts = ['Ubuntu Mono', 'Sofadi One', 'Nothing You Could Do', 'Gilda Display', 'Diplomata', 'The Girl Next Door', 'Playfair Display SC', 'Candal', 'Open Sans', 'Herr Von Muellerhoff'];
-	$scope.selectedFont = $scope.fonts[0];
+	$scope.font = {};
+	$scope.font.list = ["Ubuntu Mono", "Sofadi One", "Nothing You Could Do", "Gilda Display", "Diplomata", "Playfair Display SC", "Candal", "Open Sans", "Herr Von Muellerhoff"];
+	$scope.font.selected = $scope.font.list[0];
 
 	$scope.$on('$routeChangeSuccess', function () {
 		center();
@@ -83,6 +84,10 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope)
 			of: "#editorCanvas"
 		})
 	};
+
+	$('#fonts').click(function () {
+		console.log($scope.selectedFont);
+	})
 });
 
 

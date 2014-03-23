@@ -1,4 +1,4 @@
-@import url(http://fonts.googleapis.com/css?family=Ubuntu+Mono|Sofadi+One|Nothing+You+Could+Do|Gilda+Display|Diplomata|The+Girl+Next+Door|Playfair+Display+SC|Candal|Open+Sans|Herr+Von+Muellerhoff);
+@import url(http://fonts.googleapis.com/css?family=Ubuntu+Mono|Sofadi+One|Nothing+You+Could+Do|Gilda+Display|Diplomata|Playfair+Display+SC|Candal|Open+Sans|Herr+Von+Muellerhoff);
 
 body {
 	padding-top:70px;
@@ -22,7 +22,13 @@ body {
 	min-width: 300px;
 }
 
-.dropdown-menu li {
+.dropdown-menu li.input-group {
 	margin-left: 10px;
 	margin-right: 10px;
+	height: 45px;
+}
+
+.text {
+	height: 45px;
+	font-size: 14px;
 }

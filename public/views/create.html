@@ -36,13 +36,12 @@
 							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" id="text" >text  <span class="caret"></span></button>
 							<ul class="dropdown-menu">
 								<li class="input-group">
-									<span class="input-group-addon">text</span>
-									<input type="text" class="form-control" ng-model="usrTxt">
-								</li>
-								<li class="form-control">
-									<select id="fonts" ng-style="{{selectedFont}}">
-									  <option ng-repeat="font in fonts" ng-model="selectedFont" ng-value="{{font}}" ng-style="{'font-family': font}">{{font}}</option>
-									</select>
+									<span class="input-group-addon">
+										<select id="fonts" ng-model="font.selected" ng-style="{'font-family': font.selected}">
+										  <option ng-repeat="font in font.list" ng-value="{{font}}" ng-style="{'font-family': font}">{{font}}</option>
+										</select>
+									</span>
+									<input type="text" class="form-control text" ng-model="usrTxt">
 								</li>
 							</ul>
 						</div>
