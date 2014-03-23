@@ -30,5 +30,11 @@ body {
 
 .text {
 	height: 45px;
-	font-size: 14px;
+	font-size: 17px !important;
+	text-align: center;
+}
+
+div#text {
+	display: inline-block;
+	cursor: move;
 }
