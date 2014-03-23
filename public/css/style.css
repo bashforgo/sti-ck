@@ -17,3 +17,12 @@ body {
 	border: 5px solid black;
 	width: 400px; height: 400px;
 }
+
+.dropdown-menu {
+	min-width: 300px;
+}
+
+.dropdown-menu li {
+	margin-left: 10px;
+	margin-right: 10px;
+}

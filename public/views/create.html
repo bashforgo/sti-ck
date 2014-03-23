@@ -32,8 +32,19 @@
 						<div class="btn-group">
 							<button type="button" class="btn btn-default" id="image">image</button>
 						</div>
-						<div class="btn-group">
-							<button type="button" class="btn btn-default" id="text">text</button>
+						<div class="btn-group dropup">
+							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" id="text" >text  <span class="caret"></span></button>
+							<ul class="dropdown-menu">
+								<li class="input-group">
+									<span class="input-group-addon">text</span>
+									<input type="text" class="form-control" ng-model="usrTxt">
+								</li>
+								<li class="form-control">
+									<select id="fonts" ng-style="{{selectedFont}}">
+									  <option ng-repeat="font in fonts" ng-model="selectedFont" ng-value="{{font}}" ng-style="{'font-family': font}">{{font}}</option>
+									</select>
+								</li>
+							</ul>
 						</div>
 						<div class="btn-group">
 							<button type="button" class="btn btn-default" id="reset">reset</button>

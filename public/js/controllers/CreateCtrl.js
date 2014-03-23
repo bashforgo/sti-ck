@@ -10,7 +10,7 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope)
 	$scope.shape.cw = $scope.shape.dom.width();
 	$scope.shape.ch = $scope.shape.dom.height();
 	$scope.fonts = ['Ubuntu Mono', 'Sofadi One', 'Nothing You Could Do', 'Gilda Display', 'Diplomata', 'The Girl Next Door', 'Playfair Display SC', 'Candal', 'Open Sans', 'Herr Von Muellerhoff'];
-
+	$scope.selectedFont = $scope.fonts[0];
 
 	$scope.$on('$routeChangeSuccess', function () {
 		center();
@@ -23,6 +23,10 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope)
 			aspectRatio: false,
 			resize: function (event, ui) {center();},
 			stop: function (event, ui) {center();}
+		});
+		$('.dropdown-toggle').dropdown();
+		$('.dropdown-menu').click(function(e) {
+		  e.stopPropagation();
 		});
 	});
 
