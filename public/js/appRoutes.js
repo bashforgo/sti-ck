@@ -13,9 +13,8 @@ angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', f
 			controller: 'CreateController'
 		})
 
-		.when('/geeks', {
-			templateUrl: 'views/geek.html',
-			controller: 'GeekController'	
+		.otherwise({
+			templateUrl: 'views/404.html'
 		});
 
 	$locationProvider.html5Mode(true);

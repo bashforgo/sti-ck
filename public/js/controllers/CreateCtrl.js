@@ -14,7 +14,7 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope)
 	$scope.text.font = {};
 	$scope.text.font.list = ["Open Sans", "Ubuntu Mono", "Sofadi One", "Nothing You Could Do", "Gilda Display", "Diplomata", "Playfair Display SC", "Candal", "Herr Von Muellerhoff"];
 	$scope.text.font.selected = $scope.text.font.list[0];
-	$scope.text.sizes = [10,15,20,22,24,26,28,30,32,34,36,38,40,42];
+	$scope.text.sizes = [10,15,20,22,24,26,28,30,32,34,36,38,40,42,50,60,70,80];
 	$scope.text.size = $scope.text.sizes[2];
 	$scope.image = {};
 	$scope.image.src="";
@@ -34,14 +34,13 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope)
 			stop: function (event, ui) {center();}
 		});
 		$('.dropdown-toggle').dropdown();
-		centerText();
-	});
+		reset()	
+		});
 
 	$scope.$watch('shape.type',function (newVal,oldVal) {
 		if (newVal === "circle") {
 			$scope.shape.rw = $scope.shape.dom.css("width");
 			$scope.shape.rh = $scope.shape.dom.css("height");
-			console.log($scope.shape.rw, $scope.shape.rh);
 			$scope.shape.dom.animate({
 				"width": $scope.shape.cw,
 				"height": $scope.shape.ch},
@@ -56,7 +55,6 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope)
 		} else {
 			$scope.shape.cw = $scope.shape.dom.css("width");
 			$scope.shape.ch = $scope.shape.dom.css("height");
-			console.log($scope.shape.cw, $scope.shape.ch);
 			$scope.shape.dom.animate({
 				"width": $scope.shape.rw,
 				"height": $scope.shape.rh},
@@ -71,9 +69,21 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope)
 		};
 	});
 
-	$('#reset').click(function () {
+	$('#reset').click(function(){reset()});
+
+	$('.dropdown-menu').click(function(e) {
+		e.stopPropagation();
+	});
+
+	$(window).resize(function(){
+		center();
+	});
+
+	function reset () {
 		var original = 400;
-		$scope.text.value = "";
+		$scope.text.value = "asd";
+		$scope.text.font.selected = $scope.text.font.list[0];
+		$scope.text.size = $scope.text.sizes[2];
 		$scope.shape.bg = "ffffff";
 		$scope.shape.rw = original;
 		$scope.shape.rh = original;
@@ -89,15 +99,7 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope)
 				centerText();
 			}},
 			1000);
-	});
-
-	$('.dropdown-menu').click(function(e) {
-		e.stopPropagation();
-	});
-
-	$(window).resize(function(){
-		center();
-	});
+	};
 
 	function center () {
 		$scope.shape.dom.position({
