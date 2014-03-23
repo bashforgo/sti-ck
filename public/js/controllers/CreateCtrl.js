@@ -1,12 +1,13 @@
 angular.module('CreateCtrl', []).controller('CreateController', function($scope) {
 	$scope.shape = {};
 	$scope.shape.dom = $('#shape');
+	$scope.shape.domWOverflow = $('#shape, #overflow');
 	$scope.shape.type = "rectangle";
 	$scope.shape.bg = "ffffff";
-	$scope.shape.rw = $scope.shape.dom.width();
-	$scope.shape.rh = $scope.shape.dom.height();
-	$scope.shape.cw = $scope.shape.dom.width();
-	$scope.shape.ch = $scope.shape.dom.height();
+	$scope.shape.rw = $scope.shape.dom.css("width");
+	$scope.shape.rh = $scope.shape.dom.css("height");
+	$scope.shape.cw = $scope.shape.dom.css("width");
+	$scope.shape.ch = $scope.shape.dom.css("height");
 	$scope.text = {};
 	$scope.text.dom = $('div#text');
 	$scope.text.value = "asd";
@@ -20,7 +21,6 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope)
 
 	$scope.$on('$routeChangeSuccess', function () {
 		center();
-		centerText();
 		$scope.text.dom.draggable({
 			containment: "parent"
 		});
@@ -30,45 +30,47 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope)
 			maxWidth: $('#editorCanvas').width(),
 			maxHeight: 500,
 			handles: "se",
-			aspectRatio: false,
 			resize: function (event, ui) {center();},
 			stop: function (event, ui) {center();}
 		});
 		$('.dropdown-toggle').dropdown();
-		$('.dropdown-menu').click(function(e) {
-		  e.stopPropagation();
-		});
+		centerText();
 	});
 
 	$scope.$watch('shape.type',function (newVal,oldVal) {
 		if (newVal === "circle") {
-			$scope.shape.rw = $scope.shape.dom.width();
-			$scope.shape.rh = $scope.shape.dom.height();
+			$scope.shape.rw = $scope.shape.dom.css("width");
+			$scope.shape.rh = $scope.shape.dom.css("height");
 			console.log($scope.shape.rw, $scope.shape.rh);
 			$scope.shape.dom.animate({
-				"width": $scope.shape.cw + "px",
-				"height": $scope.shape.ch + "px",
+				"width": $scope.shape.cw,
+				"height": $scope.shape.ch},
+				{step: function (now, tween) {center();}},
+				500);
+			$scope.shape.domWOverflow.animate({
 				"borderTopLeftRadius": "50%", 
 				"borderTopRightRadius": "50%", 
 				"borderBottomLeftRadius": "50%", 
 				"borderBottomRightRadius": "50%"},
-				{step: function (now, tween) {center();}},
-				1000);
+				500);
 		} else {
-			$scope.shape.cw = $scope.shape.dom.width();
-			$scope.shape.ch = $scope.shape.dom.height();
+			$scope.shape.cw = $scope.shape.dom.css("width");
+			$scope.shape.ch = $scope.shape.dom.css("height");
 			console.log($scope.shape.cw, $scope.shape.ch);
 			$scope.shape.dom.animate({
-				"width": $scope.shape.rw + "px",
-				"height": $scope.shape.rh + "px",
+				"width": $scope.shape.rw,
+				"height": $scope.shape.rh},
+				{step: function (now, tween) {center();}},
+				500);
+			$scope.shape.domWOverflow.animate({
 				"borderTopLeftRadius": "0%", 
 				"borderTopRightRadius": "0%", 
 				"borderBottomLeftRadius": "0%", 
 				"borderBottomRightRadius": "0%"},
-				{step: function (now, tween) {center();}},
-				1000);
+				500);
 		};
 	});
+
 	$('#reset').click(function () {
 		var original = 400;
 		$scope.text.value = "";
@@ -82,13 +84,19 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope)
 			height: original + "px",
 			backgroundColor: "ffffff"},
 			{step: function (now, tween) {center();},
-			complete: function () {$scope.$digest();}},
+			complete: function () {
+				$scope.$digest();
+				centerText();
+			}},
 			1000);
-		centerText();
+	});
+
+	$('.dropdown-menu').click(function(e) {
+		e.stopPropagation();
 	});
 
 	$(window).resize(function(){
-	   center(); 
+		center();
 	});
 
 	function center () {
@@ -106,6 +114,3 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope)
 		})
 	};
 });
-
-
-

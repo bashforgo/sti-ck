@@ -4,8 +4,10 @@
 			<div class="row">
 				<div class="panel panel-default panel-body col-md-12" id="editorCanvas">
 					<div id="shape" ng-style="{ 'background-color': '#' + shape.bg }">
-						<img id="userImg" src="{{ image.src }}" ng-show="image.src">
-						<div id="text" ng-style="{'font-family': text.font.selected, 'font-size': text.size + 'px'}">{{ text.value }}</div>
+						<div id="overflow">
+							<img id="userImg" src="{{ image.src }}" ng-show="image.src">
+							<div id="text" ng-style="{'font-family': text.font.selected, 'font-size': text.size + 'px'}">{{ text.value }}</div>
+						</div>
 					</div>
 				</div>
 			</div>
