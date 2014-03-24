@@ -32,8 +32,17 @@
 				</div>
 				<div class="col-md-5">	
 					<div class="btn-group btn-group-justified">
-						<div class="btn-group">
-							<button type="button" class="btn btn-default" id="image">image</button>
+						<div class="btn-group dropup">
+							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" id="image">image  <span class="caret"></span></button>
+							<div class="dropdown-menu">
+								<div class="row" id="popular">
+									<div class="col-xs-6 col-md-3">
+										<a href="#" class="thumbnail">
+											<img src="images/popular/fry.jpg" alt="...">
+										</a>
+									</div>
+								</div>
+							</div>
 						</div>
 						<div class="btn-group dropup">
 							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" id="text" >text  <span class="caret"></span></button>
@@ -44,7 +53,7 @@
 											<option ng-repeat="font in text.font.list" ng-value="{{font}}" ng-style="{'font-family': font}">{{font}}</option>
 										</select>
 									</span>
-									<input type="text" class="form-control text" ng-model="text.value">
+									<input type="text" class="form-control text" ng-model="text.value" placeholder="put some text here">
 									<span class="input-group-addon">
 										<select id="fontSize" ng-model="text.size">
 											<option ng-repeat="size in text.sizes" ng-value="{{size}}">{{size}}</option>

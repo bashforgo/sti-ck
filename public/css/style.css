@@ -4,8 +4,8 @@ body {
 	padding-top:70px;
 }
 
-.navbar-right {
-	padding-right: 10px;
+.glyphicon {
+	color: #999;
 }
 
 #editorCanvas {
@@ -42,4 +42,17 @@ body {
 div#text {
 	display: inline-block;
 	cursor: move;
+}
+
+/*img.thumbnail {
+	display: block !important;
+	max-width: 70px !important;
+	max-height: 70px !important;
+	width: auto !important;
+	height: auto !important;
+}*/
+
+#popular {
+	margin-left: 10px;
+	margin-right: 10px;
 }

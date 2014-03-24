@@ -17,6 +17,10 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope)
 	$scope.text.sizes = [10,15,20,22,24,26,28,30,32,34,36,38,40,42,50,60,70,80];
 	$scope.text.size = $scope.text.sizes[2];
 	$scope.image = {};
+	$scope.image.popular = [{"name": "fry.jpg", "alt": "fry"},
+							{"name": "interesting.png", "alt": "interesting"},
+							{"name": "raptor.jpg", "alt": "raptor"},
+							{"name": "succes.jpg", "alt": "succes"}];
 	$scope.image.src="";
 
 	$scope.$on('$routeChangeSuccess', function () {
@@ -83,7 +87,10 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope)
 		var original = 400;
 		$scope.text.value = "asd";
 		$scope.text.font.selected = $scope.text.font.list[0];
-		$scope.text.size = $scope.text.sizes[2];
+		//$scope.text.size = $scope.text.sizes[2];
+		$scope.text.dom.animate({
+			fontSize: $scope.text.sizes[2]
+		});
 		$scope.shape.bg = "ffffff";
 		$scope.shape.rw = original;
 		$scope.shape.rh = original;
@@ -99,6 +106,7 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope)
 				centerText();
 			}},
 			1000);
+		$scope.text.size = $scope.text.sizes[2];
 	};
 
 	function center () {
@@ -112,7 +120,10 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope)
 		$scope.text.dom.position({
 			my: "center center",
 			at: "center center",
-			of: "#shape"
+			of: "#shape",
+			using: function(position) {
+			       $(this).animate(position);
+			   }
 		})
 	};
 });
