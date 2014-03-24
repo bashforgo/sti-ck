@@ -53,6 +53,10 @@ div#text {
 	height: auto !important;
 }
 
+#user-image-wrapper {
+	display: inline-block;
+}
+
 .image-dropup {
 	width: 450px;
 }
