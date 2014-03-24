@@ -45,13 +45,17 @@ div#text {
 	cursor: move;
 }
 
-/*img.thumbnail {
+.image-thumbnail {
 	display: block !important;
 	max-width: 70px !important;
 	max-height: 70px !important;
 	width: auto !important;
 	height: auto !important;
-}*/
+}
+
+.image-dropup {
+	width: 450px;
+}
 
 #popular {
 	margin-left: 10px;
