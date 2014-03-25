@@ -1,4 +1,5 @@
-angular.module('CreateCtrl', []).controller('CreateController', function($scope, $http) {
+angular.module('CreateCtrl', []).controller('CreateController', function($scope, $http, $location, Signin) {
+
 	$scope.shape = {};
 	$scope.shape.element = $('#shape');
 	$scope.shape.elementWOverflow = $('#shape, #overflow');
@@ -16,6 +17,7 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope,
 	$scope.text.font.selected = $scope.text.font.list[0];
 	$scope.text.sizes = [10,15,20,22,24,26,28,30,32,34,36,38,40,42,50,60,70,80];
 	$scope.text.size = $scope.text.sizes[2];
+	$scope.text.color = "000000";
 	$scope.uid = 1;
 	$scope.image = {};
 	$scope.image.images = [ {"type": "Popular", "route": "images/popular/",
@@ -28,6 +30,7 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope,
 	$scope.image.wrapperElement = $('#user-image-wrapper');
 	$scope.image.element = $('#user-image')
 	$scope.image.src="";
+
 
 	$scope.$on('$routeChangeSuccess', function () {
 		center();
@@ -118,6 +121,7 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope,
 			fontSize: $scope.text.sizes[2]
 		});
 		$scope.text.size = $scope.text.sizes[2];
+		$scope.text.color = "000000"
 		$scope.image.element.animate({
 			opacity: 0
 		});

@@ -8,13 +8,13 @@
 							<div id="user-image-wrapper">
 								<img ng-src="{{image.src}}" id="user-image">
 							</div>
-							<div id="text" ng-style="{'font-family': text.font.selected, 'font-size': text.size + 'px'}">{{ text.value }}</div>
+							<div id="text" ng-style="{'font-family': text.font.selected, 'font-size': text.size + 'px', 'color': '#' + text.color}">{{ text.value }}</div>
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="row">
-				<div class="col-md-4">	
+				<div class="col-md-3">	
 					<div class="btn-group input-group btn-group-justified" id="toggle" data-toggle="buttons">
 						<label class="btn btn-default active" ng-click="shape.type='rectangle'">
 							<input type="radio"/>rectangle
@@ -24,11 +24,19 @@
 						</label>
 					</div>
 				</div>
-				<div class="col-md-3">	
+				<div class="col-md-2">	
 					<div class="btn-group btn-group-justified">
 						<div class="input-group">
 							<span class="input-group-addon">background</span>
 							<input colorpicker colorpicker-position="top" type="text" class="form-control" ng-model="shape.bg">
+						</div>
+					</div>
+				</div>
+				<div class="col-md-2">	
+					<div class="btn-group btn-group-justified">
+						<div class="input-group">
+							<input colorpicker colorpicker-position="top" type="text" class="form-control" ng-model="text.color">
+							<span class="input-group-addon">text color</span>
 						</div>
 					</div>
 				</div>
