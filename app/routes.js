@@ -29,10 +29,8 @@ module.exports = function(app, passport) {
 	});
 
 	app.get('/signout', function (req, res) {
-		req.logout();
-		req.user.local.username = "null";
 		res.redirect('/');
-		res.end(JSON.stringify(req.user));
+		req.logout();
 	})
 
 	app.get('*', function (req, res) {

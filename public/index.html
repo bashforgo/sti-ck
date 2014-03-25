@@ -52,9 +52,9 @@
 					<li><a href="/create">Create</a></li>
 					<li><a href="/orders">Orders</a></li>
 					<li class="dropdown">
-						<a href="" class="dropdown-toggle" data-toggle="dropdown">{{user}} <b class="caret"></b></a>
+						<a href="" class="dropdown-toggle" data-toggle="dropdown" id="sign-out-toggle">{{user}} <b class="caret"></b></a>
 						<ul class="dropdown-menu" id="sign-out-dropdown">
-							<li><a href="" id="sign-out">Sign Out</a></li>
+							<li><a href="" id="sign-out" ng-click="signOut()">Sign Out</a></li>
 						</ul>
 					</li>
 				</ul>
@@ -65,7 +65,7 @@
 	<!-- ANGULAR DYNAMIC CONTENT -->
 	<div ng-view></div>
 
-</div>
+
 <div class="modal fade" id="login-modal">
 	<div class="modal-dialog modal-md">
 		<div class="modal-content">
@@ -85,10 +85,14 @@
 				</form>
 			</div>
 			<div class="modal-footer">
+				<div class="alert alert-danger" ng-show="error">
+					<strong>Ooops...</strong> Either the password is wrong or the username is taken.
+				</div>
 				<button type="button" class="btn btn-primary" id="signup-in">Sign In/Up</button>
 			</div>
 		</div>
 	</div>
+</div>
 </div>
 </body>
 </html>
