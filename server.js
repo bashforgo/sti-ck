@@ -1,7 +1,8 @@
 // modules =================================================
-var express = require('express');
-var app     = express();
-var mongoose= require('mongoose');
+var express  = require('express');
+var app      = express();
+var mongoose = require('mongoose');
+var passport = require('passport');
 
 // configuration ===========================================
 	
@@ -9,19 +10,29 @@ var mongoose= require('mongoose');
 var db = require('./config/db');
 
 var port = process.env.PORT || 8080; // set our port
-// mongoose.connect(db.url); // connect to our mongoDB database (commented out after you enter in your own credentials)
+require('./config/passport')(passport); // pass passport for configuration
+mongoose.connect(db.url); // connect to our mongoDB database (commented out after you enter in your own credentials)
 
 app.configure(function() {
-	app.use(express.static(__dirname + '/public')); 	// set the static files location /public/img will be /img for users
-	app.use(express.logger('dev')); 					// log every request to the console
-	app.use(express.bodyParser()); 						// pull information from html in POST
-	app.use(express.methodOverride()); 					// simulate DELETE and PUT
+	app.use(express.static(__dirname + '/public'));
+	app.use(express.logger('dev'));
+	app.use(express.cookieParser()); // read cookies (needed for auth)
+	app.use(express.bodyParser());
+	app.use(express.methodOverride());
+	app.use(express.session({ secret: 'WPS<3' }));
+	app.use(passport.initialize());
+	app.use(passport.session()); // persistent login sessions
 });
 
 // routes ==================================================
-require('./app/routes')(app); // pass our application into our routes
+require('./app/routes')(app, passport); // pass our application into our routes
 
 // start app ===============================================
 app.listen(port);	
 console.log('Magic happens on port ' + port); 			// shoutout to the user
 exports = module.exports = app; 						// expose app
+
+
+
+
+

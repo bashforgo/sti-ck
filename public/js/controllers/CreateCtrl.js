@@ -1,15 +1,15 @@
-angular.module('CreateCtrl', []).controller('CreateController', function($scope) {
+angular.module('CreateCtrl', []).controller('CreateController', function($scope, $http) {
 	$scope.shape = {};
-	$scope.shape.dom = $('#shape');
-	$scope.shape.domWOverflow = $('#shape, #overflow');
+	$scope.shape.element = $('#shape');
+	$scope.shape.elementWOverflow = $('#shape, #overflow');
 	$scope.shape.type = "rectangle";
 	$scope.shape.bg = "ffffff";
-	$scope.shape.rw = $scope.shape.dom.css("width");
-	$scope.shape.rh = $scope.shape.dom.css("height");
-	$scope.shape.cw = $scope.shape.dom.css("width");
-	$scope.shape.ch = $scope.shape.dom.css("height");
+	$scope.shape.rw = $scope.shape.element.css("width");
+	$scope.shape.rh = $scope.shape.element.css("height");
+	$scope.shape.cw = $scope.shape.element.css("width");
+	$scope.shape.ch = $scope.shape.element.css("height");
 	$scope.text = {};
-	$scope.text.dom = $('div#text');
+	$scope.text.element = $('div#text');
 	$scope.text.value = "asd";
 	$scope.text.font = {};
 	$scope.text.font.list = ["Open Sans", "Ubuntu Mono", "Sofadi One", "Nothing You Could Do", "Gilda Display", "Diplomata", "Playfair Display SC", "Candal", "Herr Von Muellerhoff"];
@@ -25,16 +25,16 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope)
 										{"src": "success.jpg", "alt": "succes"}]},
 							{"type": "Your images", "route": "images/user/" + $scope.uid + "/",
 							"details": []}];
-	$scope.image.wrapperDom = $('#user-image-wrapper');
-	$scope.image.dom = $('#user-image')
+	$scope.image.wrapperElement = $('#user-image-wrapper');
+	$scope.image.element = $('#user-image')
 	$scope.image.src="";
 
 	$scope.$on('$routeChangeSuccess', function () {
 		center();
-		$scope.text.dom.draggable({
+		$scope.text.element.draggable({
 			containment: "parent"
 		});
-		$scope.shape.dom.resizable({
+		$scope.shape.element.resizable({
 			minWidth: 50,
 			minHeight: 50,
 			maxWidth: $('#editorCanvas').width(),
@@ -53,12 +53,12 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope)
 			$('.thumbnail').click(function(){
 				var pos = null;
 				if ($scope.image.src !== "") {
-					$scope.image.dom.resizable("destroy");
+					$scope.image.element.resizable("destroy");
 				};
 				$scope.image.src = $(this).children().attr('src');
 				$scope.$apply();
-				$scope.image.dom.css({height: "200px", width: "auto", opacity: "100"});
-				$scope.image.dom.resizable({
+				$scope.image.element.css({height: "200px", width: "auto", opacity: "100"});
+				$scope.image.element.resizable({
 					minWidth: 50,
 					minHeight: 50,
 					maxWidth: $('#editorCanvas').width(),
@@ -67,38 +67,53 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope)
 					aspectRatio: true,
 					stop: function(){centerText()}
 				});
-				$scope.image.wrapperDom.draggable();
+				$scope.image.wrapperElement.draggable();
 				centerText();
 			})
 		});
 	});
 
-
+	$scope.fetch = function() {
+		$scope.code = null;
+		$scope.response = null;
+		 
+		$http({method: 'POST', url: '/signupin', params: {username:"asd",password:"qweq"}}).
+			success(function(data, status) {
+			$scope.status = status;
+			$scope.data = data;
+			console.log(status, data);
+			}).
+			error(function(data, status) {
+			$scope.data = data || "Request failed";
+			$scope.status = status;
+			console.log(status, data);
+		});
+	};
 
 	$scope.$watch('shape.type',function (newVal,oldVal) {
 		if (newVal === "circle") {
-			$scope.shape.rw = $scope.shape.dom.css("width");
-			$scope.shape.rh = $scope.shape.dom.css("height");
-			$scope.shape.dom.animate({
+			$scope.shape.rw = $scope.shape.element.css("width");
+			$scope.shape.rh = $scope.shape.element.css("height");
+			$scope.shape.element.animate({
 				"width": $scope.shape.cw,
 				"height": $scope.shape.ch},
 				{step: function (now, tween) {center();}},
 				500);
-			$scope.shape.domWOverflow.animate({
+			$scope.shape.elementWOverflow.animate({
 				"borderTopLeftRadius": "50%", 
 				"borderTopRightRadius": "50%", 
 				"borderBottomLeftRadius": "50%", 
 				"borderBottomRightRadius": "50%"},
 				500);
 		} else {
-			$scope.shape.cw = $scope.shape.dom.css("width");
-			$scope.shape.ch = $scope.shape.dom.css("height");
-			$scope.shape.dom.animate({
+			$scope.shape.cw = $scope.shape.element.css("width");
+			$scope.shape.ch = $scope.shape.element.css("height");
+			$scope.shape.element.animate({
 				"width": $scope.shape.rw,
 				"height": $scope.shape.rh},
 				{step: function (now, tween) {center();}},
 				500);
-			$scope.shape.domWOverflow.animate({
+			$scope.shape.elementWOverflow.animate({
 				"borderTopLeftRadius": "0%", 
 				"borderTopRightRadius": "0%", 
 				"borderBottomLeftRadius": "0%", 
@@ -116,11 +131,11 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope)
 		$scope.text.value = "asd";
 		$scope.text.font.selected = $scope.text.font.list[0];
 		//$scope.text.size = $scope.text.sizes[2];
-		$scope.text.dom.animate({
+		$scope.text.element.animate({
 			fontSize: $scope.text.sizes[2]
 		});
 		$scope.text.size = $scope.text.sizes[2];
-		$scope.image.dom.animate({
+		$scope.image.element.animate({
 			opacity: 0
 		});
 		$scope.image.src = "";
@@ -129,7 +144,7 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope)
 		$scope.shape.rh = original;
 		$scope.shape.cw = original;
 		$scope.shape.ch = original;
-		$scope.shape.dom.animate({
+		$scope.shape.element.animate({
 			width: original + "px",
 			height: original + "px",
 			backgroundColor: "ffffff"},
@@ -142,14 +157,14 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope)
 	};
 
 	function center () {
-		$scope.shape.dom.position({
+		$scope.shape.element.position({
 			my: "center center",
 			at: "center center",
 			of: "#editorCanvas"
 		})
 	};
 	function centerText () {
-		$scope.text.dom.position({
+		$scope.text.element.position({
 			my: "center center",
 			at: "center center",
 			of: "#shape",
