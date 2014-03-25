@@ -1,7 +1,7 @@
 angular.module('MainCtrl', []).controller('MainController', function($scope, $location, Signin) {
 
 	$scope.user = "null";
-	$scope.error = "false";
+	$scope.error = 0;
 
 	Signin.isSignedIn(function (user) {
 		$scope.handleData(user);
@@ -23,15 +23,20 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $lo
 	});
 
 	$scope.signIn = function () {
-		Signin.signInUp($('#username').val(),$('#password').val(),function (user) {$scope.handleData(user);});
-		if ($scope.user != "null") {
-			$('#username, #password').val('');
-		}
+		Signin.signInUp($('#username').val(),$('#password').val(),function (user) {
+			$scope.handleData(user);
+			if ($scope.user == "null") {
+				$scope.error = 1;
+			} else {
+				$('#username, #password').val('');
+			}
+		});
 	}
 
 	$scope.signOut = function () {
 		Signin.signOut(function (data) {
 			if (data==0) {
+				$('#username, #password').val('');
 				$location.path("/");
 				$scope.user = "null";
 			}
@@ -40,13 +45,8 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $lo
 
 	$scope.handleData = function (user) {
 		if (user!=1) {
-			$scope.error = "false";
 			$scope.user = user;
 			$('#login-modal').modal('hide');
-		} else {
-			$scope.error = "true";
-		}
-		// $scope.$apply();
-		console.log($scope.error)
+		} 
 	}
 });
