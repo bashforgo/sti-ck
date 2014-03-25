@@ -7,8 +7,18 @@ module.exports = function(app, passport) {
 	// frontend routes =========================================================
 	// route to handle all angular requests
 	app.post('/signupin', passport.authenticate('local-signup-in',{
-		successRedirect : '/profile', // redirect to the secure profile section
-		failureRedirect : '/login'}));
+		successRedirect : '/0', // redirect to the secure profile section
+		failureRedirect : '/1'}));
+
+	app.get('/0', function(req, res) {
+		res.writeHead(200);
+		res.end(0);
+	});
+
+	app.get('/1', function(req, res) {
+		res.writeHead(401);
+		res.end(1);
+	})
 
 	app.get('*', function(req, res) {
 		res.sendfile('./public/index.html');

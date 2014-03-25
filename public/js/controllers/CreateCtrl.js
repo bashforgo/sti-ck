@@ -77,7 +77,7 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope,
 		$scope.code = null;
 		$scope.response = null;
 		 
-		$http({method: 'POST', url: '/signupin', params: {username:"asd",password:"qweq"}}).
+		$http({method: 'POST', url: '/signupin', params: {username:"asd",password:"qwe"}}).
 			success(function(data, status) {
 			$scope.status = status;
 			$scope.data = data;
