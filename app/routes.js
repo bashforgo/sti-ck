@@ -18,7 +18,7 @@ module.exports = function(app, passport) {
 	app.get('/1', function(req, res) {
 		res.writeHead(401);
 		res.end(1);
-	})
+	});
 
 	app.get('*', function(req, res) {
 		res.sendfile('./public/index.html');
