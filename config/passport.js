@@ -38,7 +38,7 @@ module.exports = function(passport) {
             // check to see if theres already a user with that username
             if (user) {
                 if (user.validPassword(password)) {
-                    return done(null, true); // create the loginMessage and save it to session as flashdata
+                    return done(null, user); // create the loginMessage and save it to session as flashdata
                 } else {
                     return done(null, false);
                 }
