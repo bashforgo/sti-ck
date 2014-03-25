@@ -1,5 +1,17 @@
-angular.module('MainCtrl', []).controller('MainController', function($scope) {
+angular.module('MainCtrl', []).controller('MainController', function($scope, Signin) {
 
-	$scope.tagline = 'To the moon and back!';	
+	$scope.user = "null";
 
+	$('#login-modal').modal({
+		show: false,
+		backdrop: 'static'
+	});
+
+	$('#signup-in').click(function () {
+		Signin.signinup($('#username').val(),$('#password').val(),function (res) {
+			if (res!=1) {
+				$scope.user = res;
+			}
+		});
+	});
 });

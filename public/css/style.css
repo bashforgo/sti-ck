@@ -4,6 +4,10 @@ body {
 	padding-top:70px;
 }
 
+.modal {
+	overflow-y: auto;
+}
+
 .glyphicon {
 	color: #999;
 }
