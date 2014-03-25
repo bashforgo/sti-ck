@@ -1,27 +1,31 @@
 angular.module('SigninService', []).factory('Signin', function($http) {
 	var isSignedIn = false;
 	var user = {};
+	function getUsername (data) {
+		return data.local.username
+	}
+	function handleData (httpReq, callback) {
+		httpReq.success(function (data, status) {
+			user = data;
+			callback(getUsername(data));
+		}).
+		error(function (data, status) {
+			callback(1);
+		});
+	}
 	return {
-		signinup: function (usernameVal,passwordVal,callback) {
-			// $http({method: 'POST', url: '/signupin', params: }).
-			$http.post('/signinup', {username:usernameVal, password:passwordVal}).
-				success(function(data, status) {
-					user = data;
-					callback(user.local.username);
-				}).
-				error(function(data, status) {
-					callback(1);
-				});
+		signInUp: function (usernameVal,passwordVal,callback) {
+			handleData($http.post('/signinup', {username:usernameVal, password:passwordVal}), callback);
 		},
 
-		isSignedIn: function () {
-			return isSignedIn;
+		isSignedIn: function (callback) {
+			handleData($http.get('/issignedin'), callback)
 		},
 
-		getUsername: function () {
-			return user.local.username;
+		signOut: function () {
+			handleData($http.get('/signout'), callback)
 		}
-}
+	}
 	
 
 });

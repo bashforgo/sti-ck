@@ -2,15 +2,22 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, Sig
 
 	$scope.user = "null";
 
+	Signin.isSignedIn(function (user) {
+		if (user!=1) {
+			$scope.user = user;
+		}
+		$('#navigation-links').css({visibility:"visible"});
+	})
+
 	$('#login-modal').modal({
 		show: false,
 		backdrop: 'static'
 	});
 
 	$('#signup-in').click(function () {
-		Signin.signinup($('#username').val(),$('#password').val(),function (res) {
-			if (res!=1) {
-				$scope.user = res;
+		Signin.signInUp($('#username').val(),$('#password').val(),function (user) {
+			if (user!=1) {
+				$scope.user = user;
 			}
 		});
 	});

@@ -42,7 +42,7 @@
 		<div class="container">
 			<a class="navbar-brand" href="/">STI.CK</a>
 			<button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"><span class="glyphicon glyphicon-th-large"></span></button>
-			<div class="collapse navbar-collapse" ng-switch on="user">
+			<div class="collapse navbar-collapse" ng-switch on="user" id="navigation-links">
 				<ul class="nav navbar-nav navbar-right" ng-switch-when="null">
 					<li><a href="/">Home</a></li>
 					<li><a href="" data-toggle="modal" data-target="#login-modal">Sign In/Up</a></li>
@@ -51,7 +51,12 @@
 					<li><a href="/">Home</a></li>
 					<li><a href="/create">Create</a></li>
 					<li><a href="/orders">Orders</a></li>
-					<li><a href="">{{user}}</a></li>
+					<li class="dropdown">
+						<a href="" class="dropdown-toggle" data-toggle="dropdown">{{user}} <b class="caret"></b></a>
+						<ul class="dropdown-menu" id="sign-out-dropdown">
+							<li><a href="" id="sign-out">Sign Out</a></li>
+						</ul>
+					</li>
 				</ul>
 			</div>
 		</div>

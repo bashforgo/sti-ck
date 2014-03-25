@@ -73,23 +73,6 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope,
 		});
 	});
 
-	$scope.fetch = function() {
-		$scope.code = null;
-		$scope.response = null;
-		 
-		$http({method: 'POST', url: '/signupin', params: {username:"asd",password:"qwe"}}).
-			success(function(data, status) {
-			$scope.status = status;
-			$scope.data = data;
-			console.log(status, data);
-			}).
-			error(function(data, status) {
-			$scope.data = data || "Request failed";
-			$scope.status = status;
-			console.log(status, data);
-		});
-	};
-
 	$scope.$watch('shape.type',function (newVal,oldVal) {
 		if (newVal === "circle") {
 			$scope.shape.rw = $scope.shape.element.css("width");

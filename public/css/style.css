@@ -8,6 +8,21 @@ body {
 	overflow-y: auto;
 }
 
+#navigation-links {
+	visibility: hidden;
+}
+
+#sign-out-dropdown {
+	min-width: 0px;
+	width: 100px !important;
+	background-color: #222;
+}
+
+#sign-out {
+	color: red;
+	font-weight: 700;
+}
+
 .glyphicon {
 	color: #999;
 }
