@@ -89,6 +89,10 @@ div#text {
 	height: 34px;
 }
 
-/*.dz-preview {
-	display: none;
-}*/
+.happy {
+	padding-top: 15px;
+}
+
+.right {
+	text-align: right;
+}

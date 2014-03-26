@@ -1,12 +1,16 @@
-angular.module('SigninService', []).factory('Signin', function($http) {
+angular.module('SigninService', []).service('Signin', function($http) {
 
-	function getUsername (data) {
-		return data.local.username
+	var user = null;
+
+	function username (data) {
+		user = data.local.username
+		console.log("issiu " + user)
+		return user;
 	}
 
 	function handleData (httpReq, callback) {
 		httpReq.success(function (data, status) {
-			callback(getUsername(data));
+			callback(username(data));
 		}).
 		error(function (data, status) {
 			callback(1);
@@ -30,7 +34,17 @@ angular.module('SigninService', []).factory('Signin', function($http) {
 				error(function (data, status) {
 					callback(1);
 				})
+		},
+
+		isSignedInB: function () {
+			return user;
+		},
+
+		getUsername: function () {
+			console.log("issigu " + user)
+			return user;	
 		}
+
 	}
 	
 

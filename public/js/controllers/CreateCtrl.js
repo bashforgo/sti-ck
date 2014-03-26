@@ -13,7 +13,7 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope,
 	$scope.text.element = $('div#text');
 	$scope.text.value = "asd";
 	$scope.text.font = {};
-	$scope.text.font.list = ["Open Sans", "Ubuntu Mono", "Sofadi One", "Nothing You Could Do", "Gilda Display", "Diplomata", "Playfair Display SC", "Candal", "Herr Von Muellerhoff"];
+	$scope.text.font.list = ['Open Sans','Ubuntu Mono','Sofadi One','Nothing You Could Do','Gilda Display','Diplomata','Playfair Display SC','Candal','Herr Von Muellerhoff'];
 	$scope.text.font.selected = $scope.text.font.list[0];
 	$scope.text.sizes = [10,15,20,22,24,26,28,30,32,34,36,38,40,42,50,60,70,80];
 	$scope.text.size = $scope.text.sizes[2];
@@ -31,9 +31,19 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope,
 	$scope.image.wrapperElement = $('#user-image-wrapper');
 	$scope.image.element = $('#user-image')
 	$scope.image.src="";
+	$scope.form = {};
+	$scope.formerror = false;
+	$scope.form.username = "null";
 
 
 	$scope.$on('$routeChangeSuccess', function () {
+		Signin.isSignedIn(function (user) {
+			if (user!=1) {
+				$scope.form.username = user;
+				console.log($scope.form);
+			}
+		});
+
 		center();
 		$scope.text.element.draggable({
 			containment: "parent"
@@ -59,17 +69,31 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope,
 			})
 		});
 
+		$('#upload-trigger').tooltip();
 
-		$('#upload-trigger').dropzone({
+		$scope.dropzone = new Dropzone('#upload-trigger, body', {
 			url: '/image',
 			paramName: 'image',
 			maxFiles: 1,
 			acceptedFiles: 'image/*',
+			clickable: '#upload-trigger',
 			success: function (image, res) {
-				console.log(res);
 				setImage(false, res);
 			}
-		})
+		});
+		$scope.dropzone.on("complete", function() {
+			$scope.dropzone.removeAllFiles();
+		});
+
+		$('#order-modal').modal({
+			show: false
+		});
+
+		$('#order-modal').on('shown.bs.modal', function () {
+			$('#sticker-name').focus();
+		});
+
+
 	});
 
 	$scope.$watch('shape.type',function (newVal,oldVal) {
@@ -108,6 +132,17 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope,
 		center();
 	});
 
+	$scope.sendOrder = function () {
+		$http.post('/order',$scope.form).
+			success(function (data) {
+				$scope.formerror = false;
+				$('#order-modal').modal('hide');
+			}).
+			error(function (data) {
+				$scope.formerror = true;
+			})
+	}
+
 	function setImage (elem, res) {
 		if ($scope.image.src !== "") {
 			$scope.image.element.resizable("destroy");
@@ -133,7 +168,7 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope,
 			});
 			$scope.image.wrapperElement.draggable();
 			centerText();			
-		},200)
+		},300)
 	}
 
 
