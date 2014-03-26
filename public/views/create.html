@@ -45,13 +45,20 @@
 						<div class="btn-group dropup">
 							<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" id="image">image  <span class="caret"></span></button>
 							<div class="dropdown-menu image-dropup">
-								<div class="row" id="popular" ng-repeat="group in image.images">
+								<div class="images row" id="images" ng-repeat="group in image.images">
 									<h4>{{group.type}}</h4>
 									<div class="col-xs-6 col-md-3" ng-repeat="detail in group.details">
 										<a href="" class="thumbnail">
 											<img src="{{group.route}}{{detail.src}}" alt="{{detail.alt}}" class="image-thumbnail">
 										</a>
 									</div>
+								</div>
+								<div class="images row">
+									<form class="inline-form row" enctype="multipart/form-data"><!--method="post" action="/image"-->
+										<div class="col-md-12">
+											<div id="upload-trigger" class="btn btn-default">Upload</div>
+										</div>
+									</form>
 								</div>
 							</div>
 						</div>

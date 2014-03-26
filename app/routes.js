@@ -31,7 +31,14 @@ module.exports = function(app, passport) {
 	app.get('/signout', function (req, res) {
 		res.redirect('/');
 		req.logout();
-	})
+	});
+
+	app.post('/image', function (req, res) {
+		console.log(req.user);
+	    console.log(req.files); //.image.name + req.files.image.size + req.files.image.path
+		res.writeHead(200);
+		res.end(req.files.image.path);
+	});
 
 	app.get('*', function (req, res) {
 		res.sendfile('./public/index.html');

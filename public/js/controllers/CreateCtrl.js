@@ -18,14 +18,15 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope,
 	$scope.text.sizes = [10,15,20,22,24,26,28,30,32,34,36,38,40,42,50,60,70,80];
 	$scope.text.size = $scope.text.sizes[2];
 	$scope.text.color = "000000";
-	$scope.uid = 1;
 	$scope.image = {};
+	// $scope.image.file = {};
+	// $scope.image.file.name = "image";
 	$scope.image.images = [ {"type": "Popular", "route": "images/popular/",
 							"details": [{"src": "fry.jpg", "alt": "fry"},
 										{"src": "interesting.png", "alt": "interesting"},
 										{"src": "raptor.jpg", "alt": "raptor"},
 										{"src": "success.jpg", "alt": "succes"}]},
-							{"type": "Your images", "route": "images/user/" + $scope.uid + "/",
+							{"type": "Custom image", "route": "image/",
 							"details": []}];
 	$scope.image.wrapperElement = $('#user-image-wrapper');
 	$scope.image.element = $('#user-image')
@@ -54,26 +55,21 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope,
 		});
 		$('.dropdown-toggle').click(function() {
 			$('.thumbnail').click(function(){
-				var pos = null;
-				if ($scope.image.src !== "") {
-					$scope.image.element.resizable("destroy");
-				};
-				$scope.image.src = $(this).children().attr('src');
-				$scope.$apply();
-				$scope.image.element.css({height: "200px", width: "auto", opacity: "100"});
-				$scope.image.element.resizable({
-					minWidth: 50,
-					minHeight: 50,
-					maxWidth: $('#editorCanvas').width(),
-					maxHeight: 500,
-					handles: "se",
-					aspectRatio: true,
-					stop: function(){centerText()}
-				});
-				$scope.image.wrapperElement.draggable();
-				centerText();
+				setImage($(this));
 			})
 		});
+
+
+		$('#upload-trigger').dropzone({
+			url: '/image',
+			paramName: 'image',
+			maxFiles: 1,
+			acceptedFiles: 'image/*',
+			success: function (image, res) {
+				console.log(res);
+				setImage(false, res);
+			}
+		})
 	});
 
 	$scope.$watch('shape.type',function (newVal,oldVal) {
@@ -111,6 +107,35 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope,
 	$(window).resize(function(){
 		center();
 	});
+
+	function setImage (elem, res) {
+		if ($scope.image.src !== "") {
+			$scope.image.element.resizable("destroy");
+		};
+		$scope.image.src = ""
+		$scope.$apply();
+		if (elem) {
+			$scope.image.src = elem.children().attr('src');
+		} else {
+			$scope.image.src = res.substr(7);
+		}
+		$scope.$apply();
+		setTimeout(function(){
+			$scope.image.element.css({height: "200px", width: "auto", opacity: "100"});
+			$scope.image.element.resizable({
+				minWidth: 50,
+				minHeight: 50,
+				maxWidth: $('#editorCanvas').width(),
+				maxHeight: 500,
+				handles: "se",
+				aspectRatio: true,
+				stop: function(){centerText()}
+			});
+			$scope.image.wrapperElement.draggable();
+			centerText();			
+		},200)
+	}
+
 
 	function reset () {
 		var original = 400;

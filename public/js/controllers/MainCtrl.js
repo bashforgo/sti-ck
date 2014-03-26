@@ -12,6 +12,10 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $lo
 		show: false
 	});
 
+	$('#login-modal').on('shown.bs.modal', function () {
+		$('#username').focus();
+	});
+
 	$('#signup-in').click(function () {
 		$scope.signIn();
 	});
@@ -28,6 +32,7 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $lo
 			if ($scope.user == "null") {
 				$scope.error = 1;
 			} else {
+				$scope.error = 0;
 				$('#username, #password').val('');
 			}
 		});

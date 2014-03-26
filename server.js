@@ -17,7 +17,7 @@ app.configure(function() {
 	app.use(express.static(__dirname + '/public'));
 	app.use(express.logger('dev'));
 	app.use(express.cookieParser()); // read cookies (needed for auth)
-	app.use(express.bodyParser());
+	app.use(express.bodyParser({ keepExtensions: true, uploadDir: "public/images" }));
 	app.use(express.methodOverride());
 	app.use(express.session({ secret: 'WPS<3' }));
 	app.use(passport.initialize());

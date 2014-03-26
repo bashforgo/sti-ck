@@ -80,7 +80,15 @@ div#text {
 	width: 450px;
 }
 
-#popular {
+.images {
 	margin-left: 10px;
 	margin-right: 10px;
 }
+
+#file {
+	height: 34px;
+}
+
+/*.dz-preview {
+	display: none;
+}*/
