@@ -13,6 +13,11 @@ angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', f
 			controller: 'CreateController'
 		})
 
+		.when('/orders', {
+			templateUrl: 'views/orders.html',
+			controller: 'OrdersController'
+		})
+
 		.otherwise({
 			templateUrl: 'views/404.html'
 		});

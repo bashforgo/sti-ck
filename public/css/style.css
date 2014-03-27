@@ -96,3 +96,12 @@ div#text {
 .right {
 	text-align: right;
 }
+
+input.ng-invalid {
+	border-color: red !important;
+}
+
+input.ng-pristine {
+	border-color: #66AFE9 !important;
+}
+

@@ -54,6 +54,18 @@ module.exports = function(app, passport) {
     });
   });
 
+  app.get('/order', function (req, res) {
+    Order.find({'username': req.user.local.username }).exec(function (err, result) {
+      if (err) {
+        res.writeHead(500);
+        res.end("DB error" + err);
+      } else {
+        res.writeHead(200);
+        res.end(JSON.stringify(result));
+      }
+    })
+  });
+
   app.get('*', function (req, res) {
     res.sendfile('./public/index.html');
   });

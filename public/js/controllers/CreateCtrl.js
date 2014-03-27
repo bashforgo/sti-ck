@@ -33,16 +33,12 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope,
 	$scope.image.src="";
 	$scope.form = {};
 	$scope.formerror = false;
-	$scope.form.username = "null";
+	$scope.orderDone = false;
 
 
 	$scope.$on('$routeChangeSuccess', function () {
-		Signin.isSignedIn(function (user) {
-			if (user!=1) {
-				$scope.form.username = user;
-				console.log($scope.form);
-			}
-		});
+		$scope.form.username = "";
+		$scope.getUsername();
 
 		center();
 		$scope.text.element.draggable({
@@ -85,14 +81,23 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope,
 			$scope.dropzone.removeAllFiles();
 		});
 
+		$('#signin-modal').on('hide.bs.modal', function () {
+			$scope.getUsername();
+		});
+
 		$('#order-modal').modal({
 			show: false
 		});
 
 		$('#order-modal').on('shown.bs.modal', function () {
-			$('#sticker-name').focus();
+			$('input[name="sticker-name"]').focus();
 		});
 
+		$('.order-input').keypress(function(e){
+			if ($scope.orderForm.$valid && e.which == 13) {
+				$scope.sendOrder();
+			}
+		});
 
 	});
 
@@ -132,11 +137,24 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope,
 		center();
 	});
 
+	$scope.getUsername = function () {
+		Signin.isSignedIn(function (user) {
+			if (user!=1) {
+				$scope.form.username = user;
+				console.log($scope.form);
+			}
+		});
+	}
+
 	$scope.sendOrder = function () {
 		$http.post('/order',$scope.form).
 			success(function (data) {
 				$scope.formerror = false;
 				$('#order-modal').modal('hide');
+				$scope.orderDone = true;
+				setTimeout(function() {
+					$('#order-modal').modal('show');
+				},1000)
 			}).
 			error(function (data) {
 				$scope.formerror = true;

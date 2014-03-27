@@ -33,6 +33,7 @@
 	<!-- ANGULAR CUSTOM -->
 	<script src="js/controllers/MainCtrl.js"></script>
 	<script src="js/controllers/CreateCtrl.js"></script>
+	<script src="js/controllers/OrdersCtrl.js"></script>
 	<script src="js/services/SigninService.js"></script>
 	<script src="js/appRoutes.js"></script>
 	<script src="js/app.js"></script>
@@ -48,7 +49,7 @@
 			<div class="collapse navbar-collapse" ng-switch on="user" id="navigation-links">
 				<ul class="nav navbar-nav navbar-right" ng-switch-when="null">
 					<li><a href="/">Home</a></li>
-					<li><a href="" data-toggle="modal" data-target="#login-modal">Sign In/Up</a></li>
+					<li><a href="" data-toggle="modal" data-target="#signin-modal">Sign In/Up</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right" ng-switch-default>
 					<li><a href="/">Home</a></li>
@@ -69,7 +70,7 @@
 	<div ng-view></div>
 
 
-<div class="modal fade" id="login-modal">
+<div class="modal fade" id="signin-modal">
 	<div class="modal-dialog modal-md">
 		<div class="modal-content">
 			<div class="modal-header">

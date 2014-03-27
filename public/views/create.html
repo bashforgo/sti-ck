@@ -89,8 +89,8 @@
       <div class="row happy">
         <div class="col-md-offset-8 col-md-4">
           <div class="btn-group btn-group-justified">
-            <div class="btn-group">
-              <button type="button" class="btn btn-lg btn-success" id="happy" data-toggle="modal" data-target="#order-modal">I'm happy, take me to the ordering</button>
+            <div class="btn-group" ng-click="getUsername()">
+              <button type="button" class="btn btn-lg btn-success" id="happy" data-toggle="modal" data-target="#order-modal" ng-class="{disabled: !form.username}">{{ form.username && "I'm happy, take me to the ordering" || "Sign in first."}}</button>
             </div>
           </div>
         </div>
@@ -100,63 +100,64 @@
 </div>
 <div class="modal fade" id="order-modal">
   <div class="modal-dialog modal-md">
-    <div class="modal-content">
+    <div class="modal-content" ng-hide="orderDone">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h4 class="modal-title">Order</h4>
+        <h4 class="modal-title">Order {{orderDone}}</h4>
       </div>
       <div class="modal-body">
         <p>Enter a few details, please.</p>
-        <form class="form-horizontal" role="form">
+        <form class="form-horizontal" role="form" name="orderForm">
           <div class="form-group">
-            <label for="sticker-name" class="col-sm-2 control-label">Sticker Name</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="sticker-name" placeholder="Lovely Stickery" ng-model="form.sname">
+            <label for="sticker-name" class="col-sm-4 control-label">Sticker Name</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control order-input" name="sticker-name" placeholder="Just-A-Sticker" ng-model="form.sname" required>
             </div>
           </div>
 
           <div class="form-group">
-            <label for="sticker-sheets" class="col-sm-2 control-label">Number of Sheets</label>
-            <div class="col-sm-10">
+            <label for="sticker-sheets" class="col-sm-4 control-label">Number of Sheets</label>
+            <div class="col-sm-8">
               <div class="input-group">
-                <input type="number" class="form-control" id="sticker-sheets" placeholder="10" ng-model="form.snumber">
+                <input type="number" class="form-control order-input" name="stickerSheets" placeholder="10" ng-model="form.snumber" min="1" max="100" required>
                 <span class="input-group-addon">x10 stickers</span>
               </div>
+              <div class="text-danger" ng-show="orderForm.stickerSheets.$error.max">Please contact our wholesale team.</div>
             </div>
           </div>
 
           <div class="form-group">
-            <label for="buyer-name" class="col-sm-2 control-label">Your Name</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="buyer-name" placeholder="John Doe" ng-model="form.name">
+            <label for="buyer-name" class="col-sm-4 control-label">Your Name</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control order-input" name="buyer-name" placeholder="John Doe" ng-model="form.name" required>
             </div>
           </div>
 
           <div class="form-group">
-            <label for="address1" class="col-sm-2 control-label">Address Line 1</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="address1" placeholder="123 Main Street" ng-model="form.address1">
+            <label for="address1" class="col-sm-4 control-label">Address Line 1</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control order-input" name="address1" placeholder="123 Main Street" ng-model="form.address1" required>
             </div>
           </div>
 
           <div class="form-group">
-            <label for="address2" class="col-sm-2 control-label">Address Line 2</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="address2" placeholder="Floor 2/b" ng-model="form.address2">
+            <label for="address2" class="col-sm-4 control-label">Address Line 2</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control order-input" name="address2" placeholder="Floor 2/b" ng-model="form.address2">
             </div>
           </div>
 
           <div class="form-group">
-            <label for="city" class="col-sm-2 control-label">City</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="city" placeholder="Nottingham" ng-model="form.city">
+            <label for="city" class="col-sm-4 control-label">City</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control order-input" name="city" placeholder="Nottingham" ng-model="form.city" required>
             </div>
           </div>
 
           <div class="form-group">
-            <label for="postcode" class="col-sm-2 control-label">Postcode</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="postcode" placeholder="NG12CD" ng-model="form.postcode">
+            <label for="postcode" class="col-sm-4 control-label">Postcode</label>
+            <div class="col-sm-8">
+              <input type="text" class="form-control order-input" name="postcode" placeholder="NG12CD" ng-model="form.postcode" required>
             </div>
           </div>
         </form>
@@ -165,7 +166,20 @@
         <div class="alert alert-danger" ng-show="formerror">
           <strong>That's embarassing</strong> Something went wrong, try again.
         </div>
-        <button type="button" class="btn btn-primary" id="send-order" ng-click="sendOrder()">Double-checked everything, send order</button>
+        <div class="text-muted" ng-show="orderForm.stickerSheets.$valid">This will cost £{{ 2.5*form.snumber }}</div>
+        <button type="button" class="btn btn-primary" id="send-order" ng-click="sendOrder()" ng-class="{disabled: orderForm.$invalid}">Double-checked everything, send order</button>
+      </div>
+    </div>
+    <div class="modal-content" ng-show="orderDone">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">Order</h4>
+      </div>
+      <div class="modal-body">
+        <p>Your order went through</p>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-success" id="cool">Cool, let me see it</button>
       </div>
     </div>
   </div>

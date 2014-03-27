@@ -1,1 +1,1 @@
-angular.module('stick', ['ngRoute', 'appRoutes', 'MainCtrl', 'CreateCtrl', 'SigninService', 'colorpicker.module']);
+angular.module('stick', ['ngRoute', 'appRoutes', 'MainCtrl', 'CreateCtrl', 'OrdersCtrl', 'SigninService', 'colorpicker.module']);

@@ -1,4 +1,4 @@
-angular.module('MainCtrl', []).controller('MainController', function($scope, $location, Signin) {
+angular.module('MainCtrl', []).controller('MainController', function($scope, $location, $route, Signin) {
 
 	$scope.user = "null";
 	$scope.error = 0;
@@ -8,11 +8,11 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $lo
 		$('#navigation-links').css({visibility:"visible"});
 	})
 
-	$('#login-modal').modal({
+	$('#signin-modal').modal({
 		show: false
 	});
 
-	$('#login-modal').on('shown.bs.modal', function () {
+	$('#signin-modal').on('shown.bs.modal', function () {
 		$('#username').focus();
 	});
 
@@ -44,6 +44,7 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $lo
 				$('#username, #password').val('');
 				$location.path("/");
 				$scope.user = "null";
+				$route.reload();
 			}
 		})
 	}
@@ -51,7 +52,7 @@ angular.module('MainCtrl', []).controller('MainController', function($scope, $lo
 	$scope.handleData = function (user) {
 		if (user!=1) {
 			$scope.user = user;
-			$('#login-modal').modal('hide');
+			$('#signin-modal').modal('hide');
 		} 
 	}
 });
