@@ -1,7 +1,6 @@
-// load the things we need
 var mongoose = require('mongoose');
 
-// define the schema for our user model
+//define the order schema
 var orderSchema = mongoose.Schema({
         username     : String,
         sname        : String,
@@ -13,5 +12,5 @@ var orderSchema = mongoose.Schema({
         postcode     : String
 });
 
-// create the model for users and expose it to our app
+//expose it
 module.exports = mongoose.model('Order', orderSchema);

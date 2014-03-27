@@ -1,11 +1,10 @@
 angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
-
+	//angular handled routes
 	$routeProvider
 
-		// home page
+		//set up routes and controllers
 		.when('/', {
 			templateUrl: 'views/home.html'
-			//controller: 'MainController'
 		})
 
 		.when('/create', {
@@ -18,6 +17,7 @@ angular.module('appRoutes', []).config(['$routeProvider', '$locationProvider', f
 			controller: 'OrdersController'
 		})
 
+		//custom 404!!
 		.otherwise({
 			templateUrl: 'views/404.html'
 		});

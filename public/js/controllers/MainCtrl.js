@@ -1,58 +1,67 @@
 angular.module('MainCtrl', []).controller('MainController', function($scope, $location, $route, Signin) {
 
-	$scope.user = "null";
-	$scope.error = 0;
+  //init
+  $scope.user = "null";
+  $scope.error = 0;
 
-	Signin.isSignedIn(function (user) {
-		$scope.handleData(user);
-		$('#navigation-links').css({visibility:"visible"});
-	})
+  //fetch username
+  Signin.isSignedIn(function (user) {
+    $scope.handleData(user);
+    $('#navigation-links').css({visibility:"visible"});
+  })
 
-	$('#signin-modal').modal({
-		show: false
-	});
+  //enable modal
+  $('#signin-modal').modal({
+    show: false
+  });
 
-	$('#signin-modal').on('shown.bs.modal', function () {
-		$('#username').focus();
-	});
+  //focus on input when modal is shown
+  $('#signin-modal').on('shown.bs.modal', function () {
+    $('#username').focus();
+  });
 
-	$('#signup-in').click(function () {
-		$scope.signIn();
-	});
+  //trigger sign in
+  $('#signup-in').click(function () {
+    $scope.signIn();
+  });
 
-	$('#username, #password').keypress(function(e){
-		if (e.which == 13) {
-			$scope.signIn();
-		}
-	});
+  //allow enter login
+  $('#username, #password').keypress(function(e){
+    if (e.which == 13) {
+      $scope.signIn();
+    }
+  });
 
-	$scope.signIn = function () {
-		Signin.signInUp($('#username').val(),$('#password').val(),function (user) {
-			$scope.handleData(user);
-			if ($scope.user == "null") {
-				$scope.error = 1;
-			} else {
-				$scope.error = 0;
-				$('#username, #password').val('');
-			}
-		});
-	}
+  //sign in fn
+  $scope.signIn = function () {
+    Signin.signInUp($('#username').val(),$('#password').val(),function (user) {
+      $scope.handleData(user);
+      if ($scope.user == "null") {
+        $scope.error = 1;
+      } else {
+        $scope.error = 0;
+        $('#username, #password').val('');
+      }
+    });
+  }
 
-	$scope.signOut = function () {
-		Signin.signOut(function (data) {
-			if (data==0) {
-				$('#username, #password').val('');
-				$location.path("/");
-				$scope.user = "null";
-				$route.reload();
-			}
-		})
-	}
+  //sign out fn
+  $scope.signOut = function () {
+    Signin.signOut(function (data) {
+      if (data==0) {
+        $('#username, #password').val('');
+        $location.path("/");
+        $scope.user = "null";
+        $route.reload();
+      }
+    })
+  }
 
-	$scope.handleData = function (user) {
-		if (user!=1) {
-			$scope.user = user;
-			$('#signin-modal').modal('hide');
-		} 
-	}
+  //helper fn
+  $scope.handleData = function (user) {
+    if (user!=1) {
+      $scope.user = user;
+      $('#signin-modal').modal('hide');
+    } 
+  }
 });

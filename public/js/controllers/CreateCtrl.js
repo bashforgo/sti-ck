@@ -1,5 +1,6 @@
 angular.module('CreateCtrl', []).controller('CreateController', function($scope, $http, $location, Signin) {
 
+  //init
   $scope.shape = {};
   $scope.shape.element = $('#shape');
   $scope.shape.elementWOverflow = $('#shape, #overflow');
@@ -19,8 +20,6 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope,
   $scope.text.size = $scope.text.sizes[2];
   $scope.text.color = "000000";
   $scope.image = {};
-  // $scope.image.file = {};
-  // $scope.image.file.name = "image";
   $scope.image.images = [ {"type": "Popular", "route": "images/popular/",
               "details": [{"src": "fry.jpg", "alt": "fry"},
                     {"src": "interesting.png", "alt": "interesting"},
@@ -34,16 +33,18 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope,
   $scope.form = {};
   $scope.formerror = false;
 
-
+  //do a few things when the angular route changes
   $scope.$on('$routeChangeSuccess', function () {
     $scope.orderDone = false;
     $scope.form.username = "";
     $scope.getUsername();
 
     center();
+    //make text draggable
     $scope.text.element.draggable({
       containment: "parent"
     });
+    //shape resizable
     $scope.shape.element.resizable({
       minWidth: 50,
       minHeight: 50,
@@ -54,7 +55,7 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope,
       stop: function (event, ui) {center();centerText();}
     });
     reset() 
-
+    //set the whole page as dropzone
     $scope.dropzone = new Dropzone('#upload-trigger, body', {
       url: '/image',
       paramName: 'image',
@@ -65,34 +66,41 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope,
         setImage(false, res);
       }
     });
-
+    //make room for more files
     $scope.dropzone.on("complete", function() {
       $scope.dropzone.removeAllFiles();
     });
 
   });
 
+  //init dropups, tooltips, and modal
   $('.dropdown-toggle').dropdown();
+  $('#upload-trigger').tooltip();
+  $('#order-modal').modal({
+    show: false
+  });
 
+  //bind reset fn
   $('#reset').click(function(){reset()});
 
+  //no bubbling
   $('.dropdown-menu').click(function(element) {
     element.stopPropagation();
   });
 
+  //ugly way to bind thumbnail select
   $('.dropdown-toggle').click(function() {
     $('.thumbnail').click(function(){
       setImage($(this));
     })
   });
 
-  $('#upload-trigger').tooltip();
-
+  //when the signin modal closes try to fetch the username into the scope
   $('#signin-modal').on('hide.bs.modal', function () {
     $scope.getUsername();
   });
 
-
+  //change the order modal to confirm
   $('#order-modal').on('hide.bs.modal', function () {
     if ($scope.orderDone) {
       location.href = '/orders';
@@ -100,20 +108,19 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope,
     }
   })
 
+  // allow to send order by hitting enter
   $('.order-input').keypress(function(e){
     if ($scope.orderForm.$valid && e.which == 13) {
       $scope.sendOrder();
     }
   });
 
-  $('#order-modal').modal({
-    show: false
-  });
-
+  //focus on input when shown
   $('#order-modal').on('shown.bs.modal', function () {
     $('input[name="sticker-name"]').focus();
   });
 
+  //animate shape based on selection
   $scope.$watch('shape.type',function (newVal,oldVal) {
     if (newVal === "circle") {
       $scope.shape.rw = $scope.shape.element.css("width");
@@ -146,10 +153,12 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope,
     };
   });
 
+  //align shape on resize
   $(window).resize(function(){
     center();
   });
 
+  //fn for fetching username into scope
   $scope.getUsername = function () {
     Signin.isSignedIn(function (user) {
       if (user!=1) {
@@ -158,6 +167,8 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope,
     });
   }
 
+  //fn for sending order w/ image of sticker
+  //library is experiemental but more than nothing
   $scope.sendOrder = function () {
     $('.ui-resizable-handle').addClass('invisible');
     html2canvas($scope.shape.element, {
@@ -180,6 +191,7 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope,
     });
   }
 
+  //fn for setting the image src dynamically taking jqueryui widgets into account
   function setImage (elem, res) {
     if ($scope.image.src !== "") {
       $scope.image.element.resizable("destroy");
@@ -208,7 +220,7 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope,
     },300)
   }
 
-
+  //reset to almost initial state
   function reset () {
     var original = 400;
     $scope.text.value = "";
@@ -243,6 +255,7 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope,
       1000);
   };
 
+  //center shape
   function center () {
     $scope.shape.element.position({
       my: "center center",
@@ -250,6 +263,8 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope,
       of: "#editorCanvas"
     })
   };
+
+  //center text
   function centerText () {
     $scope.text.element.position({
       my: "center center",

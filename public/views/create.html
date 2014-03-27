@@ -1,18 +1,24 @@
+<!-- the real thing, the editor -->
 <div class="container">
+  <!-- editor canvas -->
   <div class="row"></div>
     <div class="col-md-12">
       <div class="row">
         <div class="panel panel-default panel-body col-md-12" id="editorCanvas">
+          <!-- 2 way binding for bg color -->
           <div id="shape" ng-style="{ 'background-color': '#' + shape.bg }">
             <div id="overflow">
               <div id="user-image-wrapper">
+                <!-- binding for img src -->
                 <img ng-src="{{image.src}}" id="user-image">
               </div>
+              <!-- binding for text props -->
               <div id="text" ng-style="{'font-family': text.font.selected, 'font-size': text.size + 'px', 'color': '#' + text.color}">{{ text.value }}</div>
             </div>
           </div>
         </div>
       </div>
+      <!-- editor buttons -->
       <div class="row">
         <div class="col-md-3">  
           <div class="btn-group input-group btn-group-justified" id="toggle" data-toggle="buttons">
@@ -43,13 +49,14 @@
         <div class="col-md-5">  
           <div class="btn-group btn-group-justified">
             <div class="btn-group dropup">
+              <!-- wanted to save multiple images for the same user but I was lazy, so this is just a placeholder for it -->
               <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" id="image">image  <span class="caret"></span></button>
               <div class="dropdown-menu image-dropup">
                 <div class="images row" id="images" ng-repeat="group in image.images">
                   <h4>{{group.type}}</h4>
                   <div class="col-xs-6 col-md-3" ng-repeat="detail in group.details">
                     <a href="" class="thumbnail">
-                      <img src="{{group.route}}{{detail.src}}" alt="{{detail.alt}}" class="image-thumbnail">
+                      <img ng-src="{{group.route}}{{detail.src}}" alt="{{detail.alt}}" class="image-thumbnail">
                     </a>
                   </div>
                 </div>
@@ -86,6 +93,7 @@
           </div>
         </div>
       </div>
+      <!-- order modal trigger -->
       <div class="row happy">
         <div class="col-md-offset-8 col-md-4">
           <div class="btn-group btn-group-justified">
@@ -98,6 +106,7 @@
     </div>
   </div>
 </div>
+<!-- order modal -->
 <div class="modal fade" id="order-modal">
   <div class="modal-dialog modal-md">
     <div class="modal-content" ng-hide="orderDone">
@@ -170,6 +179,7 @@
         <button type="button" class="btn btn-primary" id="send-order" ng-click="sendOrder()" ng-class="{disabled: orderForm.$invalid}">Double-checked everything, send order</button>
       </div>
     </div>
+    <!-- switch to a confirm if the order went through -->
     <div class="modal-content" ng-show="orderDone">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -179,7 +189,6 @@
         <p>Your order went through</p>
       </div>
       <div class="modal-footer">
-        <!--a class="btn btn-success" id="cool" data-dismiss="modal" href="/orders">Cool, let me see it</a-->
         <button class="btn btn-success" id="cool" data-dismiss="modal">Cool, let me see it</button>
       </div>
     </div>

@@ -1,3 +1,4 @@
+//just the db url
 module.exports = {
-	url : 'mongodb://SpeedoDevo:barnika@oceanic.mongohq.com:10094/app23146302'
+	url : 'mongodb://wpscw:wpscw@oceanic.mongohq.com:10094/app23146302'
 }
