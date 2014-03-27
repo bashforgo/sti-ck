@@ -1,4 +1,5 @@
-var Order = require('./models/order')
+var Order = require('./models/order');
+var fs    = require('fs');
 
 module.exports = function(app, passport) {
 
@@ -40,14 +41,26 @@ module.exports = function(app, passport) {
     res.end(req.files.image.path);
   });
 
+  app.post('/sticker', function (req,res) {
+    console.log(req.body);
+    res.writeHead(200);
+    res.end();
+  })
+
   app.post('/order', function (req, res) {
-    Order.create(req.body, function (err, order) {
+    console.log(req.form)
+    Order.create(req.body.form, function (err, order) {
       if (err) {
           res.writeHead(500);
           res.end("DB error" + err)
         } else {
           console.log(req.body);
           console.log(order);
+          fs.writeFile('./public/images/stickers/' + order._id + '.png',
+            new Buffer(req.body.sticker.replace(/^data:image\/\w+;base64,/, ""), 'base64'), function (err) {
+              if (err) throw err;
+              console.log('It\'s saved!');}
+              );
           res.writeHead(200);
           res.end(JSON.stringify(order));
         }
@@ -60,7 +73,7 @@ module.exports = function(app, passport) {
         res.writeHead(500);
         res.end("DB error" + err);
       } else {
-        res.writeHead(200);
+        console.log(JSON.stringify(result))
         res.end(JSON.stringify(result));
       }
     })

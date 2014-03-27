@@ -11,7 +11,7 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope,
   $scope.shape.ch = $scope.shape.element.css("height");
   $scope.text = {};
   $scope.text.element = $('div#text');
-  $scope.text.value = "asd";
+  $scope.text.value = "";
   $scope.text.font = {};
   $scope.text.font.list = ['Open Sans','Ubuntu Mono','Sofadi One','Nothing You Could Do','Gilda Display','Diplomata','Playfair Display SC','Candal','Herr Von Muellerhoff'];
   $scope.text.font.selected = $scope.text.font.list[0];
@@ -53,19 +53,7 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope,
       resize: function (event, ui) {center();},
       stop: function (event, ui) {center();centerText();}
     });
-    $('.dropdown-toggle').dropdown();
     reset() 
-    $('#reset').click(function(){reset()});
-    $('.dropdown-menu').click(function(element) {
-      element.stopPropagation();
-    });
-    $('.dropdown-toggle').click(function() {
-      $('.thumbnail').click(function(){
-        setImage($(this));
-      })
-    });
-
-    $('#upload-trigger').tooltip();
 
     $scope.dropzone = new Dropzone('#upload-trigger, body', {
       url: '/image',
@@ -77,36 +65,53 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope,
         setImage(false, res);
       }
     });
+
     $scope.dropzone.on("complete", function() {
       $scope.dropzone.removeAllFiles();
     });
 
-    $('#signin-modal').on('hide.bs.modal', function () {
-      $scope.getUsername();
-    });
+  });
 
-    $('#order-modal').modal({
-      show: false
-    });
+  $('.dropdown-toggle').dropdown();
 
-    $('#order-modal').on('shown.bs.modal', function () {
-      $('input[name="sticker-name"]').focus();
-    });
+  $('#reset').click(function(){reset()});
 
-    $('.order-input').keypress(function(e){
-      if ($scope.orderForm.$valid && e.which == 13) {
-        $scope.sendOrder();
-      }
-    });
+  $('.dropdown-menu').click(function(element) {
+    element.stopPropagation();
+  });
 
-    $('#order-modal').on('hide.bs.modal', function () {
-      if ($scope.orderDone) {
-        location.href = '/orders';
-        $scope.$apply();
-      }
+  $('.dropdown-toggle').click(function() {
+    $('.thumbnail').click(function(){
+      setImage($(this));
     })
+  });
+
+  $('#upload-trigger').tooltip();
+
+  $('#signin-modal').on('hide.bs.modal', function () {
+    $scope.getUsername();
+  });
 
 
+  $('#order-modal').on('hide.bs.modal', function () {
+    if ($scope.orderDone) {
+      location.href = '/orders';
+      $scope.$apply();
+    }
+  })
+
+  $('.order-input').keypress(function(e){
+    if ($scope.orderForm.$valid && e.which == 13) {
+      $scope.sendOrder();
+    }
+  });
+
+  $('#order-modal').modal({
+    show: false
+  });
+
+  $('#order-modal').on('shown.bs.modal', function () {
+    $('input[name="sticker-name"]').focus();
   });
 
   $scope.$watch('shape.type',function (newVal,oldVal) {
@@ -149,25 +154,30 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope,
     Signin.isSignedIn(function (user) {
       if (user!=1) {
         $scope.form.username = user;
-        console.log($scope.form);
       }
     });
   }
 
   $scope.sendOrder = function () {
-    $http.post('/order',$scope.form).
-      success(function (data) {
-        $scope.formerror = false;
-        $('#order-modal').modal('hide');
-        $scope.orderDone = true;
-        setTimeout(function() {
-          $('#order-modal').modal('show');
-          $('#cool').focus();
-        },1000)
-      }).
-      error(function (data) {
-        $scope.formerror = true;
-      })
+    $('.ui-resizable-handle').addClass('invisible');
+    html2canvas($scope.shape.element, {
+      onrendered: function(canvas) {
+        $scope.stickerCanvas = canvas.toDataURL();
+        $http.post('/order', {form:$scope.form,sticker:$scope.stickerCanvas} ).
+          success(function (data) {
+            $scope.formerror = false;
+            $('#order-modal').modal('hide');
+            $scope.orderDone = true;
+            setTimeout(function() {
+              $('#order-modal').modal('show');
+              $('#cool').focus();
+            },1000)
+          }).
+          error(function (data) {
+            $scope.formerror = true;
+          })
+      }
+    });
   }
 
   function setImage (elem, res) {
@@ -201,7 +211,7 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope,
 
   function reset () {
     var original = 400;
-    $scope.text.value = "asd";
+    $scope.text.value = "";
     $scope.text.font.selected = $scope.text.font.list[0];
     //$scope.text.size = $scope.text.sizes[2];
     $scope.text.element.animate({
@@ -212,6 +222,9 @@ angular.module('CreateCtrl', []).controller('CreateController', function($scope,
     $scope.image.element.animate({
       opacity: 0
     });
+    if ($scope.image.src !== "") {
+      $scope.image.element.resizable("destroy");
+    };
     $scope.image.src = "";
     $scope.shape.bg = "ffffff";
     $scope.shape.rw = original;

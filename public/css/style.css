@@ -79,6 +79,14 @@ div#text {
 	height: auto !important;
 }
 
+.preview-thumbnail {
+	display: block !important;
+	max-width: 250px !important;
+	max-height: 250px !important;
+	width: auto !important;
+	height: auto !important;
+}
+
 #user-image-wrapper {
 	display: inline-block;
 }
