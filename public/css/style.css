@@ -1,7 +1,14 @@
-@import url(http://fonts.googleapis.com/css?family=Ubuntu+Mono|Sofadi+One|Nothing+You+Could+Do|Gilda+Display|Diplomata|Playfair+Display+SC|Candal|Open+Sans|Herr+Von+Muellerhoff);
+@import url(http://fonts.googleapis.com/css?family=Titan+One|Ubuntu+Mono|Sofadi+One|Nothing+You+Could+Do|Gilda+Display|Diplomata|Playfair+Display+SC|Candal|Open+Sans|Herr+Von+Muellerhoff);
 
 body {
 	padding-top:70px;
+}
+
+a.navbar-brand {
+	font-family: 'Titan One';
+	font-size: 50px;
+	color: white !important;
+	padding: 12px;
 }
 
 .modal {
