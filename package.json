@@ -2,7 +2,7 @@
   "name": "sti-ck",
   "main": "server.js",
   "dependencies": {
-    "express":  "latest",
+    "express":  "~3.0",
     "mongoose": "latest",
     "passport" : "latest", 		
     "passport-local" : "latest", 	
